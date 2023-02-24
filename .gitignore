@@ -1,0 +1,11 @@
+﻿################################################################################
+# Ten plik .gitignore został utworzony automatycznie przez Microsoft(R) Visual Studio.
+################################################################################
+
+/PSIO/.vs/PSIO/v17
+/PSIO/.vs/PSIO/FileContentIndex
+/PSIO/Lab01/x64/Debug
+/PSIO/x64/Debug
+*.filters
+*.user
+*.vcxproj
