@@ -2,6 +2,8 @@
 #include <vector>
 #include <cctype>
 #include <string>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -128,6 +130,92 @@ int binarySearch(vector<double> array, double x) {
 	return -1;
 }
 
+struct Exchange_rate
+{
+	string date;
+	double usd;
+	double eur;
+	string table_id;
+};
+
+void print_rates(vector<Exchange_rate> rates) {
+	for (int i = 0; i < rates.size();i++) {
+		cout << rates[i].date << ";" << rates[i].eur << "," << rates[i].table_id << "," << rates[i].usd << "\n";
+	}
+}
+
+vector<Exchange_rate>  read_file() {
+	fstream file("./data/kursy_usd_eur.csv", fstream::in);
+	vector<Exchange_rate> rates;
+	if (file.is_open()) {
+		string line;
+		getline(file, line);
+		while (getline(file, line)) {
+			stringstream str(line);
+
+			Exchange_rate er;
+			getline(str, er.date, ',');
+			string double_str;
+			getline(str, double_str, ',');
+			er.usd = stod(double_str);
+			getline(str, double_str, ',');
+			er.eur = stod(double_str);
+			getline(str, er.table_id, ','); 
+			rates.emplace_back(er); 
+		}
+	}
+	return rates;
+}
+
+void sort_usd(vector<Exchange_rate> &rates) {
+	for (int i = 0;i < rates.size() ;i++) {
+		for (int j = i; j < rates.size(); j++) {
+			if (rates[i].usd > rates[j].usd) {
+				Exchange_rate temp = rates[j];
+				rates[j] = rates[i];
+				rates[i] = temp;
+			}
+		}
+	}
+}
+
+void sort_eur(vector<Exchange_rate>& rates) {
+	for (int i = 0;i < rates.size();i++) {
+		for (int j = i; j < rates.size(); j++) {
+			if (rates[i].eur > rates[j].eur) {
+				Exchange_rate temp = rates[j];
+				rates[j] = rates[i];
+				rates[i] = temp;
+			}
+		}
+	}
+}
+
+void print_top(vector<Exchange_rate>& rates, int n =10) {
+	for (int i = rates.size() -1; i > rates.size() - n;i--) {
+		cout << rates[i].date << "\n";
+	}
+}
+
+int binary_search(vector<Exchange_rate> array, double x) {
+	int low = 0;
+	int high = array.size() - 1;
+
+	while (low <= high) {
+		int mid = low + (high - low) / 2;
+		if (array[mid].usd == x) return mid;
+
+		if (array[mid].usd < x) {
+			low = mid + 1;
+		}
+		else {
+			high = mid - 1;
+		}
+	}
+
+	return -1;
+}
+
 int main(void) {
 	
 	//Exercise 1
@@ -187,7 +275,22 @@ int main(void) {
 	vector<double> set_of_number = { 1, 1.2, 1.3, 1.5, 1.8, 2 };
 	cout << binarySearch(set_of_number, 1.8);
 	*/
+
+	//Exercise 8
 	
+	vector<Exchange_rate> rates = read_file();
+	/*
+	sort_usd(rates);
+	//print_top(rates);
+	//sort_eur(rates);
+	//print_top(rates);
+	double ex = 3.9011;
+	int index = binary_search(rates, ex);
+	if (index != -1) cout << rates[index].date << " " << rates[index].eur << " " << rates[index].table_id << " " << rates[index].usd;
+	else cout << "No results found";
+	*/
+
+
 
 	return 0;
 }
