@@ -139,7 +139,6 @@ int main(void) {
 	else {
 		cout << "Nope" << endl;
 	}
-
 	string sentence = "Never odd or even";
 	cout << is_palindrome(sentence);
 	*/
@@ -147,7 +146,6 @@ int main(void) {
 	//Exercise 2
 	/*
 	string input = "Ala ma kota";
-
 	vector<size_t> pos = find_all(input, 'a');
 	print_vector(pos);
 	*/
@@ -164,7 +162,6 @@ int main(void) {
 	std::string sentence = "Ala ma kota";
 	std::vector<std::string> words = split(sentence);
 	print_vector(words); cout << "\n";
-
 	std::string csv = "Mount Everest,8848,1953";
 	std::vector<std::string> data = split(csv, ',');
 	print_vector(data);

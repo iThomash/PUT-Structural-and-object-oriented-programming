@@ -2,10 +2,17 @@
 # Ten plik .gitignore został utworzony automatycznie przez Microsoft(R) Visual Studio.
 ################################################################################
 
-/PSIO/.vs/PSIO/v17
-/PSIO/.vs/PSIO/FileContentIndex
-/PSIO/Lab01/x64/Debug
-/PSIO/x64/Debug
+/PSIOCpp/.vs/PSIO/v17
+/PSIOCpp/.vs/PSIO/FileContentIndex
+/PSIOCpp/Lab01/x64/Debug
+/PSIOCpp/x64/Debug
 *.filters
 *.user
 *.vcxproj
+*.tlog
+*.recipe
+*.ilk
+*.log
+*.obj
+*.idb
+*.pdb

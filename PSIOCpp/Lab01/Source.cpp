@@ -161,7 +161,6 @@ int main(void)
 	/*
 	double stop_at = 0.001;
 	double pi_approx = pi_leibniz(stop_at);
-
 	cout << pi_approx << endl;
 	cout << "error: " << pi_approx - M_PI << endl;
 	*/
