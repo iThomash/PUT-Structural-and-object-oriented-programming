@@ -19,9 +19,9 @@ void print_vector(vector<int> vec) {
 	}
 }
 
-void min_max(vector<double> values, double &min, double &max) {
+void min_max(vector<double> values, double& min, double& max) {
 	for (int i = 0; i < values.size(); i++) {
-		
+
 		if (values[i] < min) min = values[i];
 		if (values[i] > max) max = values[i];
 
@@ -44,7 +44,7 @@ uint64_t factorial_r(int number) {
 }
 
 bool is_prime(int number) {
-	for (int i = 2; i <= sqrt(number) ;i++) {
+	for (int i = 2; i <= sqrt(number);i++) {
 		if (number % i == 0) return false;
 	}
 	return true;
@@ -53,14 +53,14 @@ bool is_prime(int number) {
 double pi_leibniz(double stop_at) {
 	double ourPi = 1;
 	int i = 1;
-	while (abs((ourPi*4) - M_PI) > stop_at) {
-		if (i % 2 == 1) 
+	while (abs((ourPi * 4) - M_PI) > stop_at) {
+		if (i % 2 == 1)
 		{
-			ourPi = ourPi - (1.0 / double (i*2 + 1));
+			ourPi = ourPi - (1.0 / double(i * 2 + 1));
 		}
-		else 
+		else
 		{
-			ourPi = ourPi + (1.0 /  double (i*2 + 1));
+			ourPi = ourPi + (1.0 / double(i * 2 + 1));
 		}
 		i++;
 	}
@@ -71,7 +71,7 @@ void draw_square(int num, bool left_diagonal = false, bool right_diagonal = fals
 
 	for (int i = 0;i < num;i++) {
 		for (int j = 0;j < num;j++) {
-			if (i == 0 || j == 0 || i==num-1 || j==num-1) {
+			if (i == 0 || j == 0 || i == num - 1 || j == num - 1) {
 				cout << "#";
 				continue;
 			}
@@ -79,7 +79,7 @@ void draw_square(int num, bool left_diagonal = false, bool right_diagonal = fals
 				cout << "#";
 				continue;
 			}
-			if (right_diagonal == true && abs(num - i -1) == j) {
+			if (right_diagonal == true && abs(num - i - 1) == j) {
 				cout << "#";
 				continue;
 			}
@@ -113,8 +113,8 @@ int main(void)
 
 	//Exercise 2
 	/*
-	double min = DBL_MAX;
-	double max = DBL_MIN;
+	double min = DBL_MAX; //tab[0]
+	double max = DBL_MIN; //tab[0]
 	std::vector<double> values = { -1.0, 100, 3.14, -999.9, 21.37 };
 	min_max(values, min, max);
 	cout << "Min: " << min << "\nMax: " << max;

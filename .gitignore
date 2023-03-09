@@ -16,3 +16,4 @@
 *.obj
 *.idb
 *.pdb
+/build-*
