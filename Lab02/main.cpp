@@ -145,23 +145,23 @@ void print_rates(vector<Exchange_rate> rates) {
 }
 
 vector<Exchange_rate>  read_file() {
-    fstream file("./data/kursy_usd_eur.csv", fstream::in);
-    vector<Exchange_rate> rates;
+    std::fstream file("C:/Users/iThomash/Desktop/Politechnika Poznanska/Programowanie strukturalne i obiektowe/Lab02/data/kursy_usd_eur.csv", std::fstream::in);
+    std::vector<Exchange_rate> rates;
     if (file.is_open()) {
-        string line;
-        getline(file, line);
-        while (getline(file, line)) {
-            stringstream str(line);
+        std::string line;
+        std::getline(file, line); // wczytuje pierwszą linię z nagłówkiem i ją ignoruje
+        while (std::getline(file, line)) {//wczytuje kolejne linie aż do końca pliku
+            std::stringstream str(line);//tworzy strumień, którego źródłem jest wczytana linia
 
             Exchange_rate er;
-            getline(str, er.date, ',');
-            string double_str;
-            getline(str, double_str, ',');
-            er.usd = stod(double_str);
-            getline(str, double_str, ',');
-            er.eur = stod(double_str);
-            getline(str, er.table_id, ',');
-            rates.emplace_back(er);
+            std::getline(str, er.date, ','); //wczytuje date (pierwszy element wiersza)
+            std::string double_str;
+            std::getline(str, double_str, ',');  // wczytuje kurs USD (jako tekst)
+            er.usd = std::stod(double_str);      //zamiana na string->double
+            std::getline(str, double_str, ',');  // wczytuje kurs EUR (jako tekst)
+            er.eur = std::stod(double_str);      //zamiana na string->double
+            std::getline(str, er.table_id, ','); // wczytuje ostatnią kolumnę z numerem tabeli NBP
+            rates.emplace_back(er); //dodaje element do kolekcji
         }
     }
     return rates;
@@ -279,7 +279,6 @@ int main(void) {
     //Exercise 8
 
     vector<Exchange_rate> rates = read_file();
-    cout << rates[0].usd;
 
     /*
     sort_usd(rates);
