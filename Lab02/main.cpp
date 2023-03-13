@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <cmath>
 
 using namespace std;
 
@@ -247,6 +248,23 @@ vector<double> zero(double &x_min, double &x_max, vector<double> &p, double &ste
     return zeros;
 }
 
+double r_zero(vector<double> p, double a, double b) {
+   double c = a;
+   while ((b-a) >= 0.001) {
+      // Find middle point
+      c = (a+b)/2;
+      // Check if middle point is root
+      if (poly(c, p) == 0.0) {
+            return poly(c, p);
+      }
+       // Decide the side to repeat the steps
+      else if (poly(c, p)*poly(a, p) < 0)
+            b = c;
+      else
+            a = c;
+   }
+   return c;
+}
 
 
 
@@ -347,15 +365,16 @@ int main(void) {
     double x_min = -100.0;
     double x_max = 100.0;
     double step = 0.1;
-    double approx = 1e-9;
+    double approx = 0.0001;
 
-    coefficients = {1, -21, 100};
+    coefficients = {1, -3, 3, -1};
 
     vector<double> zeros = zero(x_min, x_max, coefficients, step);
     for (int i =0;i<zeros.size();i++) {
         //tutaj mamy juz mniej wiecej dokladne miejsca zerowe ktore moga byc w przedziale od x do x + step
         //np. 0.6 do 0.7
-        cout << zeros[i] << "\n";
+        cout.precision(16);
+        cout << "Przyblizone miejsce zerowe: "<< ceil(zeros[i] * 100.0) /100 << "\nDokladniejsze miejsce zerowe: " << r_zero(coefficients, zeros[i], zeros[i]+0.1) << "\n";
     }
 
 
