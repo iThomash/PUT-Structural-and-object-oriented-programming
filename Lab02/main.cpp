@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <cmath>
 
 using namespace std;
 
@@ -217,6 +218,57 @@ int binary_search(vector<Exchange_rate> array, double x) {
     return -1;
 }
 
+double pow(double base, int power) {
+   if (power == 0) return 1;
+   else return (base * pow(base, power-1));
+}
+
+double poly(double x,vector<double> p) {
+    double y=0.0;
+    for (int i =0; i<=p.size()-1; i++) {
+        y+=pow(x, p.size()-i-1) * p[i];
+    }
+    return y;
+}
+
+vector<double> zero(double &x_min, double &x_max, vector<double> &p, double &step) {
+    vector<double> zeros;
+    double x1 = x_min, x2 = x_min+step;
+    while (x1<=x_max) {
+        x1 = x1 + step;
+        x2 = x2 + step;
+        if (poly(x1, p) * poly(x2, p) == 0) {
+            zeros.emplace_back(x1);
+        } else if (poly(x1, p)*poly(x2, p) < 0) {
+            zeros.emplace_back(x1);
+
+        }
+        //stricte optymalizacja
+        if (zeros.size() == p.size()-1) break;
+    }
+    return zeros;
+}
+
+double r_zero(vector<double> p, double a, double b) {
+   double c = a;
+   while ((b-a) >= 0.001) {
+      // Find middle point
+      c = (a+b)/2;
+      // Check if middle point is root
+      if (poly(c, p) == 0.0) {
+            return poly(c, p);
+      }
+       // Decide the side to repeat the steps
+      else if (poly(c, p)*poly(a, p) < 0)
+            b = c;
+      else
+            a = c;
+   }
+   return c;
+}
+
+
+
 int main(void) {
 
     //Exercise 1
@@ -293,6 +345,38 @@ int main(void) {
     else cout << "No results found";
     */
 
+    //Exercise 9
+
+
+    //Exercise 10
+    vector<double> coefficients;
+    int n;
+//    cout << "Wprowadz najwieksza liczbe przy potedze x: ";
+//    cin >> n;
+//    int i = n;
+//    while(i>=0) {
+//        double num;
+//        cout << "Wprowadz liczbe przy x^" << i << ": ";
+//        cin >> num;
+//        coefficients.emplace_back(num);
+//        i--;
+//    }
+
+    //asumptions
+    double x_min = -100.0;
+    double x_max = 100.0;
+    double step = 0.1;
+    double approx = 0.0001;
+
+    coefficients = {1, -3, 3, -1};
+
+    vector<double> zeros = zero(x_min, x_max, coefficients, step);
+    for (int i =0;i<zeros.size();i++) {
+        //tutaj mamy juz mniej wiecej dokladne miejsca zerowe ktore moga byc w przedziale od x do x + step
+        //np. 0.6 do 0.7
+        cout.precision(16);
+        cout << "Przyblizone miejsce zerowe: "<< ceil(zeros[i] * 100.0) /100 << "\nDokladniejsze miejsce zerowe: " << r_zero(coefficients, zeros[i], zeros[i]+0.1) << "\n";
+    }
 
 
     return 0;
