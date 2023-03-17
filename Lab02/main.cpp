@@ -85,6 +85,7 @@ vector<string> split(string sentence, char separator = ' ') {
 }
 
 string find_and_replace(string text, string from, string to) {
+    //mozna bylo skorzystac z metody replace :v
     string sentence = text, tempText="";
     while (sentence!=tempText) {
         size_t found = sentence.find(from);
