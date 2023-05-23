@@ -46,7 +46,7 @@ int main()
     sf::Texture texture_hero = loadTexture("Farmer.png");
     hero.setTexture(texture_hero);
     hero.setSpeed(0, 0);
-    hero.setPosition(0, 600 - 85);
+    hero.setPosition(50, 600 - 85);
     for (int i = 0; i < (15 * 50); i += 64)
     {
         hero.add_animation_frame(sf::IntRect(i, 0, 64, 72));
@@ -95,6 +95,7 @@ int main()
 
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Left) {
+                hero.setOrigin(sf::Vector2f(hero.getLocalBounds().width / 2.f, 0));
                 hero.setSpeed(-120, 0);
                 hero.setScale(-1.0f, 1.0f);
             }
@@ -102,6 +103,7 @@ int main()
 
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Right) {
+                hero.setOrigin(sf::Vector2f(hero.getLocalBounds().width / 2.f, 0));
                 hero.setSpeed(120, 0);
                 hero.setScale(1.0f, 1.0f);
             }
@@ -124,7 +126,7 @@ int main()
         }
 
         if (fallingApple != -1) {
-            //there is a applea falling
+            //there is an apple falling
             apples[fallingApple].setSpeed(0,120);
             apples[fallingApple].step(elapsed);
             apples[fallingApple].animate(elapsed);
@@ -132,14 +134,14 @@ int main()
                 pointsNumber -= 1;
                 points.setString(to_string(pointsNumber));
                 apples[fallingApple].setSpeed(0, 0);
-                apples[fallingApple].setPosition(apples[fallingApple].getPosition().x, 170);
+                apples[fallingApple].setPosition(apples[fallingApple].getPosition().x, 110);
                 fallingApple = -1;
                 appleClock.restart();
             } else if (apples[fallingApple].getGlobalBounds().intersects(hero.getGlobalBounds())) {
                 pointsNumber += 1;
                 points.setString(to_string(pointsNumber));
                 apples[fallingApple].setSpeed(0, 0);
-                apples[fallingApple].setPosition(apples[fallingApple].getPosition().x, 170);
+                apples[fallingApple].setPosition(apples[fallingApple].getPosition().x, 110);
                 fallingApple = -1;
                 appleClock.restart();
             }
@@ -158,7 +160,6 @@ int main()
         for (int i = 0;i < apples.size();i++) {
             window.draw(apples[i]);
         }
-
 
         // end the current frame
         window.display();
