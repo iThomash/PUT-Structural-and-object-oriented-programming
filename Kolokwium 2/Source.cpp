@@ -35,10 +35,12 @@ int main()
 
 
     sf::Texture floorTxt = loadTexture("grass-3.png");
+    //w przypadku gdy tekstura bedzie za krotka to ta metoda pozwoli na jej powtarzanie az do momentu ponizej
     floorTxt.setRepeated(true);
     
     sf::Sprite floor;
     floor.setTexture(floorTxt, true);
+    //setTextureRect pozwala na wczesniejsze uzycie metody .setRepeated()
     floor.setTextureRect({0,0, 900, 600 - 48 });
     floor.setPosition(0, 600-48);
 
@@ -47,8 +49,16 @@ int main()
     hero.setTexture(texture_hero);
     hero.setSpeed(0, 0);
     hero.setPosition(50, 600 - 85);
-    for (int i = 0; i < (15 * 50); i += 64)
+    //(15 * 50) - oznacza jak dlugo wykonywac petle animacji
+    //15 - liczna pojedynczych klatek bohatera
+    //64 - szerokosc pojedynczej tekstury
+    for (int i = 0; i < (15 * 64); i += 64)
     {
+        // kolejne argumenty IntRect to:
+        //i - miejsce x w ktorym rozpoczynamy teksture 
+        //0 - miejsce y w ktorym rozpoczynamy teksture 
+        //64 - szerokosc tekstury
+        //72 - wysokosc tekstury
         hero.add_animation_frame(sf::IntRect(i, 0, 64, 72));
     }
 
@@ -81,34 +91,37 @@ int main()
                 window.close();
         }
 
-        const sf::Time elapsed = clock.restart();
+        sf::Time elapsed = clock.restart();
 
         hero.step(elapsed);
         hero.animate(elapsed);
 
-        //events
+        //wydarzenia
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Down ) {
                 hero.setSpeed(0,0);
             }
         }
 
+        //tutaj jest ustawienie, ktore przy kazdej klatce ustawia srodek bohatera, aby pozniejsze skalowanie(odracanie tekstury) bylo poprawne 
+        //tzn odbywalo sie wzgledem srodka 
+        hero.setOrigin(sf::Vector2f(hero.getLocalBounds().width / 2.f, 0));
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Left) {
-                hero.setOrigin(sf::Vector2f(hero.getLocalBounds().width / 2.f, 0));
                 hero.setSpeed(-120, 0);
+                //ten sprytny zapis pozwala na latwe obrocenie tekstury
                 hero.setScale(-1.0f, 1.0f);
             }
         }
 
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Right) {
-                hero.setOrigin(sf::Vector2f(hero.getLocalBounds().width / 2.f, 0));
                 hero.setSpeed(120, 0);
+                //ten sprytny zapis pozwala na latwe obrocenie tekstury
                 hero.setScale(1.0f, 1.0f);
             }
         }
-
+        //Ponizsze dwa if'y to zaiste detekcja zderzen z sciana
         if (hero.getGlobalBounds().left <= 0) {
             hero.setSpeed(120, 0);
             hero.setScale(1.0f, 1.0f);
@@ -120,13 +133,15 @@ int main()
 
 
         if (appleClock.getElapsedTime().asSeconds() > 3 && fallingApple == -1) {
+            //ziarno generowania
             std::srand(std::time(NULL));
-            fallingApple = rand()%6;
+            //modulo 8 bo mamy 8 jablek wiec nasze reszty z dzielenia beda w zakresie od 0 do 7
+            fallingApple = rand()%8;
             appleClock.restart();
         }
 
+        //spada jablko wiec poczekajmy az spadnie
         if (fallingApple != -1) {
-            //there is an apple falling
             apples[fallingApple].setSpeed(0,120);
             apples[fallingApple].step(elapsed);
             apples[fallingApple].animate(elapsed);
@@ -147,12 +162,13 @@ int main()
             }
         }
 
-        // clear the window with black color
-        window.clear(sf::Color::Black);
+        //jesli nie bedzie tej linijki to nic zlego sie nie stanie
+        //window.clear(sf::Color::Black);
         
         for (int i = 0;i < sprites.size();i++) {
             window.draw(sprites[i]);
         }
+
         window.draw(floor);
         window.draw(points);
         window.draw(hero);
@@ -161,7 +177,6 @@ int main()
             window.draw(apples[i]);
         }
 
-        // end the current frame
         window.display();
     }
 
