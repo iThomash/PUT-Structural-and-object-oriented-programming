@@ -41,7 +41,7 @@ int main()
     sf::Sprite floor;
     floor.setTexture(floorTxt, true);
     //setTextureRect pozwala na wczesniejsze uzycie metody .setRepeated()
-    floor.setTextureRect({0,0, 900, 600 - 48 });
+    floor.setTextureRect({0,0, 900, 48 });
     floor.setPosition(0, 600-48);
 
     AnimatedSprite hero;
