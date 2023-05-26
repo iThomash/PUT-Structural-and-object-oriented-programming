@@ -95,7 +95,7 @@ int main()
 
         //wydarzenia
 
-        //tutaj jest ustawienie, ktore przy kazdej klatce ustawia srodek bohatera, aby pozniejsze skalowanie(odracanie tekstury) bylo poprawne 
+        //po tym if'ie jest ustawienie, ktore przy kazdej klatce ustawia srodek bohatera, aby pozniejsze skalowanie(odracanie tekstury) bylo poprawne 
         //tzn odbywalo sie wzgledem srodka 
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Down) {
@@ -117,8 +117,7 @@ int main()
                 hero.toRight(120);
             }
         }
-        //Ponizsze dwa if'y to zaiste detekcja zderzen z sciana
-        
+        //Ponizsza linijka to zaiste detekcja zderzen z granicami okna
         hero.bounce(window.getSize().x);
 
 
